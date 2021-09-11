@@ -1,0 +1,24 @@
+{
+  "name": "retale",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SaiVedagiri/ReTale.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SaiVedagiri/ReTale/issues"
+  },
+  "homepage": "https://github.com/SaiVedagiri/ReTale#readme",
+  "dependencies": {
+    "nodemon": "^2.0.12",
+    "pathfinding": "^0.4.18"
+  }
+}
