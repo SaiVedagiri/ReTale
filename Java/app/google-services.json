@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "517262660824",
+    "project_id": "retale-9fd28",
+    "storage_bucket": "retale-9fd28.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517262660824:android:a8af0310fa9de5080db3ad",
+        "android_client_info": {
+          "package_name": "com.saivedagiri.retale"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "517262660824-uccs409ut0jdvubtn1l4cn0n7cctd8aq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmvo1ioUfGFUcwDpPA9uCOCD0IKlFNNjI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "517262660824-uccs409ut0jdvubtn1l4cn0n7cctd8aq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
