@@ -1,10 +1,14 @@
 const express = require("express");
+const bcrypt = require("bcryptjs");
 const path = require("path");
 var bodyParser = require("body-parser");
 const PORT = process.env.PORT || 80;
 var PF = require('pathfinding');
-
+const dotenv = require("dotenv")
 var admin = require("firebase-admin");
+var AWS = require("aws-sdk");
+
+dotenv.config()
 
 var serviceAccount = require("./retale-9fd28-firebase-adminsdk-9w0fq-535869787f.json");
 
@@ -14,12 +18,183 @@ admin.initializeApp({
 });
 
 var database = admin.database();
-// var AStarFinder = require('./pathfinding');
+AWS.config.update({
+    region: process.env.AWSDYNAMOREGION,
+    endpoint: process.env.AWSDYNAMOENDPOINT,
+    accessKeyId: process.env.AWSACCESSKEYID,
+    secretAccessKey: process.env.AWSSECRETACCESSKEY,
+  });
+  
+  var docClient = new AWS.DynamoDB.DocumentClient();
 
 express()
     .use(express.static(path.join(__dirname, "build")))
     .use(express.json())
     .use(bodyParser.urlencoded({ extended: false }))
+    .get("/*", function (req, res) {
+        res.sendFile(path.join(__dirname, "build", "index.html"));
+      })
+      .post("/googleSignIn", async function (req, res) {
+        let profile = req.body;
+        let email = profile.email;
+        let name = profile.name;
+        let imageURL = profile.imageurl;
+        let myVal = await searchUserEmail(email);
+        if (!myVal) {
+          await addUser(email, imageURL, name, "null");
+        }
+        let myVal2 = await searchUserEmail(email);
+        while (myVal2 == undefined) {
+          myVal2 = await searchUserEmail(email);
+        }
+        let userKey = myVal2.userID;
+        const returnVal = {
+          userkey: userKey,
+          imageurl: imageURL,
+        };
+        res.send(returnVal);
+      })
+      .post("/getMap", async function(req, res) {
+        let userKey = req.body.userkey;
+        await database.ref("users/" + userKey).once("value", function(snapshot) {
+          let userData = snapshot.val();
+          if(!userData) {
+            res.send({
+              error: "No user data"
+            });
+          }
+          let rows = userData.rows;
+          let columns = userData.columns;
+          let matrix = userData.matrix;
+          res.send({
+            rows: rows,
+            columns: columns,
+            matrix: matrix
+          });
+        });
+      })
+      .post("/setSize", async function(req, res) {
+        let userKey = req.body.userkey;
+        if(!userKey) {
+          res.send({
+            error: "No user data"
+          });
+        }
+        let rows = req.body.rows;
+        let columns = req.body.columns;
+        await database.ref("users/" + userKey).update({
+          rows: rows,
+          columns: columns
+        });
+        res.sendStatus(200);
+      })
+      .post("/setMatrix", async function(req, res) {
+        let userKey = req.body.userkey;
+        let matrix = req.body.matrix;
+        await database.ref("users/" + userKey).update({
+          matrix: matrix
+        });
+        res.sendStatus(200);
+      })
+      .post("/login", async function (req, res) {
+        let email = req.body.email;
+        let password = req.body.password;
+        let returnVal;
+        let myVal = await searchUserEmail(email);
+        if (!myVal) {
+          returnVal = {
+            data: "Incorrect email address.",
+          };
+        } else {
+          let inputPassword = password;
+          let userPassword;
+          userPassword = myVal.password;
+          if (bcrypt.compareSync(inputPassword, userPassword)) {
+            returnVal = {
+              data: "Valid",
+              id: myVal.userID,
+              imageurl: "assets/default.png",
+            };
+          } else {
+            returnVal = {
+              data: "Incorrect Password",
+            };
+          }
+        }
+        res.send(returnVal);
+      })
+    
+      .post("/register", async function (req, res) {
+        let email = req.body.email;
+        let firstName = req.body.firstname;
+        let lastName = req.body.lastname;
+        let password = req.body.password;
+        let passwordConfirm = req.body.passwordconfirm;
+        let returnVal;
+        if (!email) {
+          returnVal = {
+            data: "Please enter an email address.",
+          };
+          res.send(returnVal);
+          return;
+        }
+        let myVal = await searchUserEmail(email);
+        if (myVal) {
+          returnVal = {
+            data: "Email already exists.",
+          };
+        } else if (firstName.length == 0 || lastName.length == 0) {
+          returnVal = {
+            data: "Invalid Name",
+          };
+        } else if (
+          !(
+            /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u.test(
+              firstName
+            ) &&
+            /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð ,.'-]+$/u.test(
+              lastName
+            )
+          )
+        ) {
+          returnVal = {
+            data: "Invalid Name",
+          };
+        } else if (
+          !/(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/.test(
+            email
+          )
+        ) {
+          returnVal = {
+            data: "Invalid email address.",
+          };
+        } else if (password.length < 6) {
+          returnVal = {
+            data: "Your password needs to be at least 6 characters.",
+          };
+        } else if (password != passwordConfirm) {
+          returnVal = {
+            data: "Your passwords don't match.",
+          };
+        } else {
+          addUser(
+            email,
+            "assets/default.png",
+            `${firstName} ${lastName}`,
+            hash(password)
+          );
+          let myVal2 = await searchUserEmail(email);
+          while (myVal2 == undefined) {
+            myVal2 = await searchUserEmail(email);
+          }
+          returnVal = {
+            data: "Valid",
+            id: myVal2.userID,
+            imageurl: "assets/default.png",
+          };
+        }
+        res.send(returnVal);
+      })
     .post("/createGrid", function () {
 
         var grid = Array.from(Array(20), () => new Array(20));
@@ -176,3 +351,92 @@ function upcToItemName (upc) {
 
 }
 
+
+function hash(value) {
+    let salt = bcrypt.genSaltSync(10);
+    let hashVal = bcrypt.hashSync(value, salt);
+    return hashVal;
+  }
+  
+  async function searchUserEmail(key) {
+    let params = {
+      TableName: "ReTale",
+      IndexName: "email-index",
+      KeyConditionExpression: "#key = :value",
+      ExpressionAttributeNames: {
+        "#key": "email",
+      },
+      ExpressionAttributeValues: {
+        ":value": key,
+      },
+    };
+  
+    await docClient.query(params, async function (err, data) {
+      if (err) {
+        console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+        return err;
+      } else {
+        console.log("Query succeeded.");
+        returnVal = await data.Items[0];
+      }
+    });
+    await new Promise((resolve, reject) => setTimeout(resolve, 200));
+    return returnVal;
+  }
+  
+  async function searchUserID(key) {
+    let params = {
+      TableName: "ReTale",
+      KeyConditionExpression: "#key = :value",
+      ExpressionAttributeNames: {
+        "#key": "userID",
+      },
+      ExpressionAttributeValues: {
+        ":value": key,
+      },
+    };
+  
+    await docClient.query(params, async function (err, data) {
+      if (err) {
+        console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
+        return err;
+      } else {
+        console.log("Query succeeded.");
+        returnVal = await data.Items[0];
+      }
+    });
+    await new Promise((resolve, reject) => setTimeout(resolve, 200));
+    return returnVal;
+  }
+  
+  async function addUser(email, imageURL, name, password) {
+    let username = "";
+    let characters =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-";
+    let charactersLength = characters.length;
+    for (let i = 0; i < 15; i++) {
+      username += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    let params = {
+      TableName: "ReTale",
+      Item: {
+        userID: username,
+        email: email,
+        imageURL: imageURL,
+        name: name,
+        password: password,
+      },
+    };
+  
+    console.log("Adding a new item...");
+    await docClient.put(params, async function (err, data) {
+      if (err) {
+        console.error(
+          "Unable to add item. Error JSON:",
+          JSON.stringify(err, null, 2)
+        );
+      } else {
+        console.log("Added item successfully");
+      }
+    });
+  }
