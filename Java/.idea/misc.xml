@@ -21,6 +21,18 @@
         <entry key="..\:/Users/saive/Documents/GitHub/ReTale/Java/app/src/main/res/layout/fragment_network_info.xml" value="0.132" />
         <entry key="..\:/Users/saive/Documents/GitHub/ReTale/Java/app/src/main/res/layout/fragment_notifications.xml" value="0.12760416666666666" />
         <entry key="..\:/Users/saive/Documents/GitHub/ReTale/Java/app/src/main/res/menu/bottom_nav_menu.xml" value="0.3" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/drawable/ic_baseline_delete.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/drawable/ic_baseline_edit.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.24427083333333333" />
+        <entry key="app/src/main/res/layout/activity_landing_app.xml" value="0.11930091185410334" />
+        <entry key="app/src/main/res/layout/fragment_barcode_scanner.xml" value="0.228125" />
+        <entry key="app/src/main/res/layout/fragment_network_info.xml" value="0.11094224924012158" />
+        <entry key="app/src/main/res/layout/fragment_shopping_list.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_u_p_c_scanner.xml" value="0.228125" />
+        <entry key="app/src/main/res/layout/fragment_wifi_triangulation_test.xml" value="0.228125" />
+        <entry key="app/src/main/res/layout/new_task.xml" value="0.228125" />
+        <entry key="app/src/main/res/layout/task_layout.xml" value="0.228125" />
       </map>
     </option>
   </component>

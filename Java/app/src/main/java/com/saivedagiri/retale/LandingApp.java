@@ -17,6 +17,7 @@ public class LandingApp extends AppCompatActivity implements BottomNavigationVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing_app);
 
+        System.out.println("test1");
         bottomNavigationView = findViewById(R.id.bottomNavigationView);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
@@ -29,23 +30,20 @@ public class LandingApp extends AppCompatActivity implements BottomNavigationVie
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, networkInfo).commit();
-        return true
-
-        switch (item.getItemId()) {
-            case R.id.shop_list:
-                getSupportFragmentManager().beginTransaction().replace(R.id.container, networkInfo).commit();
+//        switch (item.getItemId()) {
+//            case R.id.shop_list:
+                getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, networkInfo).commit();
                 return true;
 
-            case R.id.upc:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.container, secondFragment).commit();
-                return true;
+//            case R.id.upc:
+//                getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, secondFragment).commit();
+//                return true;
 
-            case R.id.shopping:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.container, thirdFragment).commit();
-                return true;
-        }
-        return false;
+//            case R.id.shopping:
+//                getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, thirdFragment).commit();
+//                return true;
+//        }
+//        return false;
     }
 
 
