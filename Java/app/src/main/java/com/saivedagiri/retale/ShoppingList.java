@@ -33,7 +33,7 @@ import com.saivedagiri.retale.ToDoModel;
  * Use the {@link ShoppingList#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ShoppingList extends Fragment {
+public class ShoppingList extends AppCompatActivity {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -66,7 +66,7 @@ public class ShoppingList extends Fragment {
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
+//        fragment.setArguments(args);
         return fragment;
     }
 
@@ -95,13 +95,6 @@ public class ShoppingList extends Fragment {
                 AddNewTask.newInstance().show(getSupportFragmentManager(), AddNewTask.TAG);
             }
         });
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shopping_list, container, false);
     }
 
     public void handleDialogClose(DialogInterface dialog){

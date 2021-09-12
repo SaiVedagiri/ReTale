@@ -21,7 +21,7 @@ import java.util.List;
 public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
 
     private List<ToDoModel> todoList;
-    private MainActivity activity;
+    private ShoppingList activity;
 
     public ToDoAdapter(Object db, ShoppingList activity) {
         this.activity = activity;
@@ -62,7 +62,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.ViewHolder> {
     }
 
     public Context getContext() {
-        return activity;
+        return getContext();
     }
 
     public void setTasks(List<ToDoModel> todoList) {

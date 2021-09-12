@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/saive/Documents/GitHub/ReTale/Java/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.14375" />
+        <entry key="..\:/Users/saive/Documents/GitHub/ReTale/Java/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.14375" />
         <entry key="..\:/Users/saive/Documents/GitHub/ReTale/Java/app/src/main/res/drawable/ic_launcher_background.xml" value="0.26666666666666666" />
         <entry key="..\:/Users/saive/Documents/GitHub/ReTale/Java/app/src/main/res/drawable/ic_money_bill_wave_solid.xml" value="0.14375" />
         <entry key="..\:/Users/saive/Documents/GitHub/ReTale/Java/app/src/main/res/drawable/ic_notifications_black_24dp.xml" value="0.14375" />
@@ -16,10 +17,13 @@
         <entry key="..\:/Users/saive/Documents/GitHub/ReTale/Java/app/src/main/res/layout/activity_network_display.xml" value="0.12760416666666666" />
         <entry key="..\:/Users/saive/Documents/GitHub/ReTale/Java/app/src/main/res/layout/activity_wi_fi_receiver.xml" value="0.12760416666666666" />
         <entry key="..\:/Users/saive/Documents/GitHub/ReTale/Java/app/src/main/res/layout/activity_wifi_receiver.xml" value="0.23645833333333333" />
+        <entry key="..\:/Users/saive/Documents/GitHub/ReTale/Java/app/src/main/res/layout/fragment_barcode_scanner.xml" value="0.12760416666666666" />
         <entry key="..\:/Users/saive/Documents/GitHub/ReTale/Java/app/src/main/res/layout/fragment_dashboard.xml" value="0.12760416666666666" />
         <entry key="..\:/Users/saive/Documents/GitHub/ReTale/Java/app/src/main/res/layout/fragment_home.xml" value="0.12760416666666666" />
         <entry key="..\:/Users/saive/Documents/GitHub/ReTale/Java/app/src/main/res/layout/fragment_network_info.xml" value="0.132" />
         <entry key="..\:/Users/saive/Documents/GitHub/ReTale/Java/app/src/main/res/layout/fragment_notifications.xml" value="0.12760416666666666" />
+        <entry key="..\:/Users/saive/Documents/GitHub/ReTale/Java/app/src/main/res/layout/fragment_shopping_list.xml" value="0.12760416666666666" />
+        <entry key="..\:/Users/saive/Documents/GitHub/ReTale/Java/app/src/main/res/layout/fragment_wifi_triangulation_test.xml" value="0.12760416666666666" />
         <entry key="..\:/Users/saive/Documents/GitHub/ReTale/Java/app/src/main/res/menu/bottom_nav_menu.xml" value="0.3" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.24427083333333333" />
         <entry key="app/src/main/res/drawable/ic_baseline_delete.xml" value="0.24427083333333333" />

@@ -3,6 +3,7 @@ package com.saivedagiri.retale;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
@@ -26,24 +27,28 @@ public class LandingApp extends AppCompatActivity implements BottomNavigationVie
     }
 
     NetworkInfo networkInfo = new NetworkInfo();
-
+    UPCScanner upcScanner = new UPCScanner();
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-//        switch (item.getItemId()) {
-//            case R.id.shop_list:
+        switch (item.getItemId()) {
+            case R.id.shop_list:
                 getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, networkInfo).commit();
                 return true;
 
-//            case R.id.upc:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, secondFragment).commit();
-//                return true;
+            case R.id.map:
+                startActivity(new Intent(this, ShoppingList.class));
+                return true;
 
-//            case R.id.shopping:
-//                getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, thirdFragment).commit();
-//                return true;
-//        }
-//        return false;
+            case R.id.scan:
+                getSupportFragmentManager().beginTransaction().replace(R.id.flFragment, upcScanner).commit();
+                return true;
+
+            case R.id.pay:
+                startActivity(new Intent(this, ShoppingList.class));
+                return true;
+        }
+        return false;
     }
 
 
