@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/shop_list"
+        android:icon="@android:drawable/checkbox_on_background"
+        android:title="Shopping List" />
+    <item
+        android:id="@+id/map"
+        android:icon="@android:drawable/ic_dialog_map"
+        android:title="Store Map" />
+    <item
+        android:id="@+id/scan"
+        android:icon="@android:drawable/ic_menu_camera"
+        android:title="Scan" />
+    <item
+        android:id="@+id/pay"
+        android:icon="@android:drawable/ic_secure"
+        android:title="Pay" />
+</menu>
